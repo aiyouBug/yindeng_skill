@@ -103,7 +103,7 @@ all_recognition_data = []
 last_run_added_rows = 0
 last_run_no_update = False
 
-def download_pdf(pdf_url, file_name, save_dir, referer=None, log_func=print):
+def download_pdf(pdf_url, file_name, save_dir, referer=None, base_url=None, log_func=print):
     try:
         headers = {
             "Referer": referer or base_url,
@@ -271,7 +271,7 @@ def parse_date(s):
 
 # 这里我们把 run_crawl 改造成一个通用函数，可以指定 source_type
 def run_crawl_task(source_type, start_date_str=None, log_cb=None):
-    global wb, ws, row_count, time_start, last_run_added_rows, last_run_no_update, all_recognition_data, base_url
+    # global wb, ws, row_count, time_start, last_run_added_rows, last_run_no_update, all_recognition_data, base_url
     
     config = CRAWL_SOURCES.get(source_type)
     if not config:
@@ -398,7 +398,7 @@ def run_crawl_task(source_type, start_date_str=None, log_cb=None):
                     rec_json = ""
                     saved_file_path = ""
                     if not pdf_link.get('is_text', False):
-                        saved_file_path = download_pdf(pdf_link['url'], pdf_link['name'], current_pdf_dir, announcement['href'], log_func=log)
+                        saved_file_path = download_pdf(pdf_link['url'], pdf_link['name'], current_pdf_dir, referer=announcement['href'], base_url=base_url, log_func=log)
                         try:
                             # 只有结果公告需要进行OCR识别并汇总
                             if source_type == "result" and saved_file_path:

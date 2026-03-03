@@ -5,12 +5,30 @@
 ## 目录结构
 ```
 yindeng_skill/
-├── main.py              # Skill 入口脚本
+├── skill.py             # 标准 Skill 接口 (Agent/Tool Use)
+├── skill.json           # Skill 元数据定义
+├── main.py              # CLI 入口脚本
 ├── crawler.py           # 核心爬虫逻辑
 ├── ocr_utils.py         # OCR 与数据汇总工具
 ├── requirements.txt     # 依赖清单
-└── README.md            # 说明文档
+└── SKILL.md             # 说明文档
 ```
+
+## Agent 集成 (CoPaw / Tool Use)
+
+本 Skill 提供了标准的 Python 函数接口和 JSON Schema 定义，可供 AI Agent 直接调用。
+
+### Python 接口
+```python
+from skill import run_yindeng_crawler
+
+# 爬取并分析
+result = run_yindeng_crawler(source="result", analyze=True)
+print(result)
+```
+
+### Skill 定义 (skill.json)
+包含完整的工具描述和参数定义，符合 OpenAI/Anthropics Tool Schema 标准。
 
 ## 功能特性
 1. **多任务支持**：可同时爬取“转让公告”和“转让结果公告”。
